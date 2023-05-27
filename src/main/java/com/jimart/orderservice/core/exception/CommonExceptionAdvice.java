@@ -1,6 +1,6 @@
 package com.jimart.orderservice.core.exception;
 
-import com.jimart.productservice.core.common.ApiResponse;
+import com.jimart.orderservice.core.common.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import static com.jimart.productservice.core.exception.ErrorMsgType.COMMON_SERVER_ERROR;
+import static com.jimart.orderservice.core.exception.ErrorMsgType.COMMON_SERVER_ERROR;
 
 @RestControllerAdvice
 @Slf4j

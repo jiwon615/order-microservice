@@ -9,10 +9,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderDto {
 
-    private String test;
+    private Long orderId;
+    private int totalPrice;
+    private String userId;
+    private Long productId;
 
     @Builder
-    private OrderDto(String test) {
-        this.test = test;
+    private OrderDto(Long orderId, int totalPrice, String userId, Long productId) {
+        this.orderId = orderId;
+        this.totalPrice = totalPrice;
+        this.userId = userId;
+        this.productId = productId;
     }
 }

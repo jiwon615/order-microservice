@@ -17,15 +17,12 @@ public class OrderDetail extends BaseEntity {
     @Column(name = "orders_detail_id")
     private Long id;
 
-    private String productCd;
-
-    private String productName;
-
-    private int quantity;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     private Orders orders;
+
+    @Column(nullable = false)
+    private Long productId;
 
     // 연관관계 편의 메소드 (OrdersDetail <-> Orders)
     public void setOrders(Orders order) {
