@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderDto {
@@ -12,13 +14,13 @@ public class OrderDto {
     private Long orderId;
     private int totalPrice;
     private String userId;
-    private Long productId;
+    private List<Long> productIds;
 
     @Builder
-    private OrderDto(Long orderId, int totalPrice, String userId, Long productId) {
+    private OrderDto(Long orderId, int totalPrice, String userId, List<Long> productIds) {
         this.orderId = orderId;
         this.totalPrice = totalPrice;
         this.userId = userId;
-        this.productId = productId;
+        this.productIds = productIds;
     }
 }

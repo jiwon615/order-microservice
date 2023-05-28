@@ -5,6 +5,7 @@ import com.jimart.orderservice.domain.order.dto.OrderCreateReqDto;
 import com.jimart.orderservice.domain.order.dto.OrderResDto;
 import com.jimart.orderservice.domain.order.service.OrderService;
 import jakarta.validation.Valid;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +21,11 @@ public class OrderController {
     @PostMapping("")
     public ApiResponse<OrderResDto> createOrder(@RequestBody @Valid OrderCreateReqDto request) {
         return ApiResponse.created(orderService.createOrder(request.toOrderDto()));
+    }
+
+    @GetMapping("")
+    public ApiResponse<List<OrderResDto>> getAllOrders() {
+        return ApiResponse.ok(orderService.findAllOrders());
     }
 
     @GetMapping("{userId}")
