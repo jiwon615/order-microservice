@@ -54,8 +54,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderResDto getOrderByOrderId(OrderDto request) {
-        Optional<Orders> orderOpt = orderRepository.findById(request.getOrderId());
+    public OrderResDto getOrderByOrderId(Long orderId) {
+        Optional<Orders> orderOpt = orderRepository.findById(orderId);
         return orderOpt.map(OrderResDto::of)
                 .orElseThrow(() -> new CustomException(ORD_NOT_FOUND)
                 );

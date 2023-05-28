@@ -9,7 +9,7 @@ public interface OrderService {
 
     OrderResDto createOrder(OrderDto orderDto);
 
-    OrderResDto getOrderByOrderId(OrderDto orderDto);
+    OrderResDto getOrderByOrderId(Long orderId);
 
     List<OrderResDto> getOrdersByUserId(String userId);
 

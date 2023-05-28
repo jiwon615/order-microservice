@@ -5,7 +5,6 @@ import com.jimart.orderservice.domain.order.dto.OrderCreateReqDto;
 import com.jimart.orderservice.domain.order.dto.OrderResDto;
 import com.jimart.orderservice.domain.order.service.OrderService;
 import jakarta.validation.Valid;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,5 +30,10 @@ public class OrderController {
     @GetMapping("{userId}")
     public ApiResponse<List<OrderResDto>> getOrdersByUserId(@PathVariable(name = "userId") String userId) {
         return ApiResponse.ok(orderService.getOrdersByUserId(userId));
+    }
+
+    @GetMapping("/id/{orderId}")
+    public ApiResponse<OrderResDto> getOrderByOrderId(@PathVariable(name = "orderId") Long orderId) {
+        return ApiResponse.ok(orderService.getOrderByOrderId(orderId));
     }
 }
