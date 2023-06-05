@@ -1,6 +1,7 @@
 package com.jimart.orderservice.domain.order.service;
 
 import com.jimart.orderservice.core.exception.CustomException;
+import com.jimart.orderservice.core.messagequeue.KafkaProducer;
 import com.jimart.orderservice.domain.order.constant.OrderStatus;
 import com.jimart.orderservice.domain.order.dto.OrderDto;
 import com.jimart.orderservice.domain.order.dto.OrderResDto;
@@ -26,6 +27,7 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final OrderDetailRepository orderDetailRepository;
+    private final KafkaProducer kafkaProducer;
 
     @Override
     public OrderResDto createOrder(OrderDto request) {
@@ -50,6 +52,9 @@ public class OrderServiceImpl implements OrderService {
         }
 
         savedOrder.setTotalPrice(totalPrice);
+
+        // kafka 에 주문서비스를 전달
+        kafkaProducer.send("example-product-topic", savedOrder);
         return OrderResDto.of(savedOrder);
     }
 

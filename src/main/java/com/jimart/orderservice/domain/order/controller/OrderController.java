@@ -1,6 +1,7 @@
 package com.jimart.orderservice.domain.order.controller;
 
 import com.jimart.orderservice.core.common.ApiResponse;
+import com.jimart.orderservice.core.messagequeue.KafkaProducer;
 import com.jimart.orderservice.domain.order.dto.OrderCreateReqDto;
 import com.jimart.orderservice.domain.order.dto.OrderResDto;
 import com.jimart.orderservice.domain.order.service.OrderService;
@@ -16,6 +17,7 @@ import java.util.List;
 public class OrderController {
 
     private final OrderService orderService;
+    private final KafkaProducer kafkaProducer;
 
     @PostMapping("")
     public ApiResponse<OrderResDto> createOrder(@RequestBody @Valid OrderCreateReqDto request) {
