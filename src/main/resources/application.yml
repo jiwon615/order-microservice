@@ -28,6 +28,15 @@ spring:
       settings:
         web-allow-others: true
 
+  # 분산 추적을 위한 zipkin & sleuth
+  zipkin:
+    base-url: http://127.0.0.1:9411
+    enabled: true
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+logging.pattern.level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
 eureka:
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
