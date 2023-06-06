@@ -6,14 +6,16 @@ spring:
     name: order-service
 
   datasource:
-    url: jdbc:h2:mem:~/jimartdb
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
+#    url: jdbc:h2:mem:~/jimartdb
+#    driver-class-name: org.h2.Driver
+    url: jdbc:mysql://127.0.0.1:3306/mydb_jimart
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: Wldnjs1!@
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: true
