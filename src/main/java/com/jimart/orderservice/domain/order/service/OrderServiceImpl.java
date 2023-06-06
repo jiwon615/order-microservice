@@ -2,6 +2,7 @@ package com.jimart.orderservice.domain.order.service;
 
 import com.jimart.orderservice.core.exception.CustomException;
 import com.jimart.orderservice.core.messagequeue.KafkaProducer;
+import com.jimart.orderservice.domain.order.client.ProductServiceClient;
 import com.jimart.orderservice.domain.order.constant.OrderStatus;
 import com.jimart.orderservice.domain.order.dto.OrderDto;
 import com.jimart.orderservice.domain.order.dto.OrderResDto;
@@ -9,6 +10,7 @@ import com.jimart.orderservice.domain.order.entity.Orders;
 import com.jimart.orderservice.domain.order.repository.OrderRepository;
 import com.jimart.orderservice.domain.orderdetail.entity.OrderDetail;
 import com.jimart.orderservice.domain.orderdetail.repository.OrderDetailRepository;
+import com.jimart.orderservice.domain.product.dto.ProductResDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,34 +30,39 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderDetailRepository orderDetailRepository;
     private final KafkaProducer kafkaProducer;
+    private final ProductServiceClient productServiceClient;
 
     @Override
     public OrderResDto createOrder(OrderDto request) {
         // TODO: 임시 주문 구현 로직 (추후 재고 차감 및 동시성 이슈 해결 로직 추가)
         List<Long> productIds = request.getProductIds();
 
-        int totalPrice = 100000; // TODO: 임시 값 (kafka / RabiitMQ 같은 메시징 시스템으로 상품 데이터를 불러와, 가격을 꽂아주기)
         Orders order = Orders.builder()
                 .orderStatus(OrderStatus.PAYMENT_COMPLETED)
                 .ordersDetails(new ArrayList<>())
                 .userId(request.getUserId())
                 .build();
         Orders savedOrder = orderRepository.save(order);
+        int totalPrice = 0;
         for (Long id : productIds) {
             OrderDetail detailForTargetProduct = OrderDetail.builder()
                     .productId(id)
                     .build();
-            totalPrice += 20000;
             detailForTargetProduct.setOrders(savedOrder); // 연관관계 편의 메소드
             orderDetailRepository.save(detailForTargetProduct);
-            totalPrice += 20000;
+            totalPrice += getProductPrice(id);
         }
 
         savedOrder.setTotalPrice(totalPrice);
 
-        // kafka 에 주문서비스를 전달
-        kafkaProducer.send("example-product-topic", savedOrder);
+        // 재고 감소를 위해 kafka에 주문  상품들을 보냄
+        kafkaProducer.send("example-product-topic", productIds);
         return OrderResDto.of(savedOrder);
+    }
+
+    private int getProductPrice(Long id) {
+        ProductResDto product = productServiceClient.getProductById(id).getData();
+        return product.getPrice();
     }
 
     @Override
