@@ -37,3 +37,4 @@ eureka:
 
 logging.level:
   org.hibernate.SQL: debug
+  com.jimart.orderservice.domain.order.client: DEBUG
