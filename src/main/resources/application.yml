@@ -32,11 +32,7 @@ spring:
   zipkin:
     base-url: http://127.0.0.1:9411
     enabled: true
-management:
-  tracing:
-    sampling:
-      probability: 1.0
-logging.pattern.level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
+
 eureka:
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
@@ -49,3 +45,13 @@ eureka:
 logging.level:
   org.hibernate.SQL: debug
   com.jimart.orderservice.domain.order.client: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, httptrace, beans, busrefresh, info, metrics, prometheus
+  tracing:
+    sampling:
+      probability: 1.0
+logging.pattern.level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
