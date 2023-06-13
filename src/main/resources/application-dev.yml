@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    url: jdbc:mysql://mysql:3306/jimartdb
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: Wldnjs1!@
+  cloud:
+    config:
+      uri: http://config-service:8888
+      name: jimart-dev
+    rabbitmq:
+      host: rabbitmq
+      port: 5672
+      username: guest
+      password: guest
+    zipkin:
+      base-url: http://zipkin:9411
+eureka:
+  instance:
+    client:
+      service-url:
+        defaultZone: http://jimart-eureka-service:8761/eureka
+logging:
+  file: /api-logs/orders-ws.log
+custom-define:
+  url:
+    bootstrap-servers-config: 172.18.0.101:9092
