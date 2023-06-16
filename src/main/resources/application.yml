@@ -19,12 +19,6 @@ spring:
     use_sql_comments: true
     defer-datasource-initialization: true
 
-  h2:
-    console:
-      enabled: true
-      settings:
-        web-allow-others: true
-
   # 분산 추적을 위한 zipkin & sleuth
   zipkin:
     base-url: http://127.0.0.1:9411
